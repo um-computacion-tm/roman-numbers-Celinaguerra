@@ -1,72 +1,66 @@
 import unittest
 def decimal_to_roman(decimal):
+    totalnum = ""
+    totalmil = ""
+    totalcentena = ""
+    totaldecena = ""
+    totalunidad = ""
 
-################ VARIABLES ##################
-
-    totaldecimal = ""
-
-    if decimal == 50:
-        return "L"
-    elif decimal == 100:
-        return "C"
-    elif decimal == 500:
-        return "D"
-    elif decimal == 1000:
-       return "M"
-
-
-############### 1-39 ####################
-
-    if decimal > 10 and decimal < 40:
-        totaldecimal = "X" * (decimal //10)
-        decimal = decimal % 10
-    if decimal <=3:
-        return totaldecimal + "I"*decimal    
-    elif decimal == 5:
-        return totaldecimal + "V"
-    elif decimal >5 and decimal <9:                                 #recordatorio para cambiar nombres de variables
-        return totaldecimal + ("V" + "I"*(decimal-5))                           #para evitar confusiones
-    elif decimal ==10:
-        return totaldecimal + "X"
-    if decimal == 4:
-        return totaldecimal + "IV"
-    if decimal == 9:
-        return totaldecimal + "IX"
+    u_mil=decimal
+    if u_mil >= 1000 and u_mil <= 3999:
+        totalmil = "M" * (u_mil//1000)
+    centena = u_mil % 1000
+    totalnum = totalmil
     
-############ algunas centenas #############
+    if centena >=100 and centena <=399:
+        totalcentena = "C" * (centena//100)
+    if centena >=400 and centena <= 499:
+        totalcentena = "CD"
+    if centena >=500 and centena <= 599:
+        totalcentena = "D"
+    if centena >=600 and centena <=899:
+        totalcentena = "D" + "C"*((centena//100)-5)
+    if centena >=900 and centena <=999:
+        totalcentena = "CM"
+    decena = centena % 100
+    totalnum = totalnum + totalcentena
 
-    num = ""
-    if decimal >= 100:
-        centena = decimal // 100
-        num = 'C' * centena
-        decimal = decimal % 100 
-    if decimal <= 3:
-        num += 'I' * decimal
-    elif decimal == 5:
-        num += 'V'
-    elif decimal == 10:
-        num += "X"
-    elif decimal >5 and decimal <9:
-        num += "V" + "I"*(decimal-5)  
-    return num
+    if decena >= 10 and decena <=39:
+        totaldecena = "X" * (decena//10)
+    if decena >= 40 and decena <=49:
+        totaldecena = "XL"
+    if decena >= 50 and decena <=59:
+        totaldecena = "L"
+    if decena >= 60 and decena <=89:
+        totaldecena = "L" + "X"*((decena//10)-5)
+    if decena >= 90 and decena <=99:
+        totaldecena = "XC"
+    unidad = decena % 10
+    totalnum = totalnum + totaldecena
+    
+    if unidad == 1:
+        totalunidad = "I"
+    if unidad >=1 and unidad <=3:
+        totalunidad = "I" * (unidad)
+    if unidad == 4:
+        totalunidad = "IV"
+    if unidad == 5:
+        totalunidad = "V"
+    if unidad >=6 and unidad <=8:
+        totalunidad = "V" + "I"*(unidad-5)
+    if unidad == 9:
+        totalunidad = "IX"
+    totalnum = totalnum + totalunidad
 
-
-
+    return totalnum
+        
+    
 class TestDecimalToRoman(unittest.TestCase):
-    def test_uno(self):
-        #pre condición
-        ###NO HAY ###
 
-        #proceso
+    def test_1(self):
         resultado = decimal_to_roman(1)
-
-        #verificación
-        self.assertEqual(resultado, 'I')
+        self.assertEqual(resultado,"I")
     
-    def test_diez(self):
-        resultado = decimal_to_roman(10)
-        self.assertEqual(resultado,"X")
-
     def test_cinco(self):
         resultado = decimal_to_roman(5)
         self.assertEqual(resultado,"V")
@@ -98,7 +92,11 @@ class TestDecimalToRoman(unittest.TestCase):
     def test_nueve(self):
         resultado = decimal_to_roman(9)
         self.assertEqual(resultado,"IX")
-    
+
+    def test_diez(self):
+        resultado = decimal_to_roman(10)
+        self.assertEqual(resultado,"X")
+
     def test_24(self):
         resultado = decimal_to_roman(24)
         self.assertEqual(resultado,"XXIV")
@@ -107,6 +105,10 @@ class TestDecimalToRoman(unittest.TestCase):
         resultado = decimal_to_roman(37)
         self.assertEqual(resultado,"XXXVII")
 
+    def test_94(self):
+        resultado = decimal_to_roman(94)
+        self.assertEqual(resultado,"XCIV")
+
     def test_105(self):
         resultado = decimal_to_roman(105)
         self.assertEqual(resultado,"CV")
@@ -114,6 +116,34 @@ class TestDecimalToRoman(unittest.TestCase):
     def test_207(self):
         resultado = decimal_to_roman(207)
         self.assertEqual(resultado,"CCVII")
+
+    def test_462(self):
+        resultado = decimal_to_roman(462)
+        self.assertEqual(resultado,"CDLXII")
+
+    def test_702(self):
+        resultado = decimal_to_roman(702)
+        self.assertEqual(resultado,"DCCII")
+
+    def test_999(self):
+        resultado = decimal_to_roman(999)
+        self.assertEqual(resultado,"CMXCIX")
+    
+    def test_2500(self):
+        resultado = decimal_to_roman(2500)
+        self.assertEqual(resultado,"MMD")
+
+    def test_3999(self):
+        resultado = decimal_to_roman(3999)
+        self.assertEqual(resultado,"MMMCMXCIX")
+
+    def test_2584(self):
+        resultado = decimal_to_roman(2584)
+        self.assertEqual(resultado,"MMDLXXXIV")
+
+    def test_2831(self):
+        resultado = decimal_to_roman(2831)
+        self.assertEqual(resultado,"MMDCCCXXXI")
 
 if __name__=="__main__":
     unittest.main()
