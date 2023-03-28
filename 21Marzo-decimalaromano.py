@@ -1,52 +1,39 @@
 import unittest
 def decimal_to_roman(decimal):
-    totalnum = ""
-    totalmil = ""
-    totalcentena = ""
-    totaldecena = ""
-    totalunidad = ""
 
     u_mil=decimal
-    if u_mil >= 1000 and u_mil <= 3999:
+    if u_mil <=3999:
         totalmil = "M" * (u_mil//1000)
     centena = u_mil % 1000
     totalnum = totalmil
     
-    if centena >=100 and centena <=399:
+    if centena <=399:
         totalcentena = "C" * (centena//100)
     if centena >=400 and centena <= 499:
         totalcentena = "CD"
-    if centena >=500 and centena <= 599:
-        totalcentena = "D"
-    if centena >=600 and centena <=899:
+    if centena >=500 and centena <=899:
         totalcentena = "D" + "C"*((centena//100)-5)
     if centena >=900 and centena <=999:
         totalcentena = "CM"
     decena = centena % 100
     totalnum = totalnum + totalcentena
 
-    if decena >= 10 and decena <=39:
+    if decena <=39:
         totaldecena = "X" * (decena//10)
     if decena >= 40 and decena <=49:
         totaldecena = "XL"
-    if decena >= 50 and decena <=59:
-        totaldecena = "L"
-    if decena >= 60 and decena <=89:
+    if decena >= 50 and decena <=89:
         totaldecena = "L" + "X"*((decena//10)-5)
     if decena >= 90 and decena <=99:
         totaldecena = "XC"
     unidad = decena % 10
     totalnum = totalnum + totaldecena
     
-    if unidad == 1:
-        totalunidad = "I"
-    if unidad >=1 and unidad <=3:
+    if unidad <=3:
         totalunidad = "I" * (unidad)
     if unidad == 4:
         totalunidad = "IV"
-    if unidad == 5:
-        totalunidad = "V"
-    if unidad >=6 and unidad <=8:
+    if unidad >=5 and unidad <=8:
         totalunidad = "V" + "I"*(unidad-5)
     if unidad == 9:
         totalunidad = "IX"
